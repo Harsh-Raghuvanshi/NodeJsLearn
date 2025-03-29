@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Form</title>
+</head>
+<body>
+    <h1>Submit Form</h1>
+    <form id="uploadForm" action="http://localhost:8000/submit" enctype="multipart/form-data" method="post">
+        <label>Full Name:</label>
+        <input type="text" name="fullName" placeholder="Enter your name" required>
+        <br><br>
+
+        <label>College Name:</label>
+        <input type="text" name="college" placeholder="Enter your college name" required>
+        <br><br>
+
+        <label>Upload Photo:</label>
+        <input type="file" name="myphoto" required>
+        <br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Response:</h2>
+    <pre id="response"></pre>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+
+            const response = await fetch("http://localhost:8000/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+            document.getElementById("response").innerText = JSON.stringify(result, null, 2);
+        });
+    </script>
+</body>
+</html>
